@@ -1,14 +1,13 @@
 '''
-OCR part of Text2Podcast
-Rework to work with individual Images
-
+Backend part of Text2Podcast
+written by Christoferis c 2020
 '''
 
 #external Imports
 from pytesseract import image_to_string as imgstr
 from PIL import Image
 
-class ocr:
+class backend:
     
     def __init__(self, file):
         #Path to txt file dump

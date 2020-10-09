@@ -8,8 +8,6 @@ Used Libraries: python os + python tkinter
 python ver 3.8+
 
 TODO:
-- Duplicate Path auswerfen
-- if startfile none soll nichts gemacht werden
 - sourcepath dictionary with language (French and Stuff)
 - GitHub Commit
 - setup.py
@@ -21,12 +19,18 @@ TODO:
 - Toplevel Savelocation Filename + Autoplay
 '''
 #File Imports
-from OCRcomp import ocr
+from Midend import midend
 
 #External Imports
-from tkinter import Tk as tk, Menu, Frame, Button, filedialog as fd, Listbox
+from tkinter import Tk as tk, Menu, Frame, Button, filedialog as fd, Listbox, Toplevel, ttk, Label
 from os import startfile, getenv
 from random import randint
+
+#Construct main window as global
+main = tk()
+main.title("Text2Podcast by Christoferis V1.0")
+main.geometry("1280x720")
+
 
 #Filenamegenerator 
 def rangen():
@@ -38,8 +42,6 @@ def rangen():
     Filename += ".txt"
     return str(Filename)
     
-
-
 #Main Open class
 class File:
     #External accesed vars
@@ -79,22 +81,38 @@ class File:
         except FileNotFoundError:
             pass
 
-#OCR starter
+#
+def backendStart():
+    #----> File structure: GUI ---> midend constructs final file -----> Backend with ocr and gtts
+    midend(files=File.sourcepaths)
 
-def ocrstart():
-    #----> Combiner which takes the stuff sorts it and puts it in one string for gtts to process
-    ocr(queue=File.sourcepaths)
+
+#Toplevel GUI for choosing language the language of the file
+def langGUI():
+    global main
+    tempGUI = Toplevel(main)
+    tempGUI.title("Set language")
+    tempGUI.geometry("400x120")
+
+    #Construct Interface
+    info = Label(tempGUI, text="In what language is this file in?\n Choose from Combobox or type a IETF Language tag in the Box below")
+    choice = ttk.Combobox(tempGUI, values=("de", "en", "fr", "es"))
+    confirmBut = Button(tempGUI, text="Set language for current files", background="green", foreground="white", height=2)
+    #pack area
+    info.pack()
+    choice.pack()
+    confirmBut.pack(pady=10)
+
+    #returns lang the files should be associated as
+    #return fileLang
+
 
 
 #Main GUI Function
 def GUI():
-    #Set stuff up
-    main = tk()
-    main.title("Text2Podcast by Christoferis V1.0")
-    main.geometry("1280x720")
+    #Import main window
+    global main
 
-    #Main Frames
-    
     #Listbox Frame construction
     noteframe = Frame(main)
     pathlist = Listbox(noteframe)
@@ -105,7 +123,7 @@ def GUI():
 
     #bottombar construction
     bottombar = Frame(main)
-    confirm = Button(bottombar, text="Make Podcast", height=2, background="green", foreground="white", command=ocrstart)
+    confirm = Button(bottombar, text="Make Podcast", height=2, background="green", foreground="white", command=backendStart)
 
 
     #Topbar construction
@@ -149,6 +167,10 @@ def GUI():
     #other win config
     main.config(menu=menubar)
     
-    main.mainloop()
 
-GUI()
+#Start of Programm
+#GUI()
+langGUI()
+
+#mainloop
+main.mainloop()

@@ -3,15 +3,13 @@ gTTS Integration for Text2Podcast
 developed by Christoferis c 2020
 
 TODO:
-- Make this file to the root file
 - File sorter and combiner
 
 '''
-from gtts import gTTS
-from OCRcomp import ocr
+from Backend import backend
 
 
-class root:
+class midend:
 
     def __init__(self, files):
         self.files = files
