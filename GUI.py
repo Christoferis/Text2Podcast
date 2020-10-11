@@ -9,7 +9,6 @@ python ver 3.8+
 
 TODO:
 - sourcepath dictionary with language (French and Stuff)
-- GitHub Commit
 - setup.py
 - pytesseract integration
 - gtts integration
@@ -23,7 +22,7 @@ from Midend import midend
 
 #External Imports
 from tkinter import Tk as tk, Menu, Frame, Button, filedialog as fd, Listbox, Toplevel, ttk, Label
-from os import startfile, getenv
+from os import startfile
 from random import randint
 
 #Construct main window as global
@@ -45,7 +44,7 @@ def rangen():
 #Main Open class
 class File:
     #External accesed vars
-    sourcepaths = list()
+    sourcepaths = dict()
 
     def __init__(self, listbox):
         #var
@@ -60,16 +59,14 @@ class File:
         #delete welcome message
         if self.listbox.get(0) in ("Welcome to Text2Podcast! Start by Importing some Files",) and len(currentfiles) != 0:
             self.listbox.delete(0)
-        
-        #add Files to list and sourcepaths
-        for data in currentfiles:
-            File.sourcepaths.append(data)
-            self.listbox.insert("end", data)
+
+        #LangGUI
+        self.langGUI(currentfiles)
 
     def delFile(self):
         #delete from sourcepaths
         try:
-            File.sourcepaths.remove(str(self.listbox.get("active")))
+            del File.sourcepaths[str(self.listbox.get("active"))]
         except ValueError:
             pass
         self.listbox.delete("active")
@@ -81,30 +78,38 @@ class File:
         except FileNotFoundError:
             pass
 
-#
+    #Additional Stuff
+    #Dict appender
+    def add_to_dict(self, files, choice, gui):
+        for data in files:
+            File.sourcepaths[data] = choice.get()
+            self.listbox.insert("end", data)
+        gui.destroy()
+
+    #Language GUI
+    def langGUI(self, files):
+        global main
+        tempGUI = Toplevel(main)
+        tempGUI.title("Set language")
+        tempGUI.geometry("400x120")
+
+        #Construct Interface
+        info = Label(tempGUI, text="In what language is this file in?\n Choose from Combobox or type a IETF Language tag in the Box below")
+        choice = ttk.Combobox(tempGUI, values=("de", "en", "fr", "es"))
+        confirmBut = Button(tempGUI, text="Set language for current files", background="green", foreground="white", height=2, command=lambda: self.add_to_dict(files, choice, tempGUI))
+        #pack area
+        info.pack()
+        choice.pack()
+        confirmBut.pack(pady=10)
+
+
 def backendStart():
     #----> File structure: GUI ---> midend constructs final file -----> Backend with ocr and gtts
     midend(files=File.sourcepaths)
 
+#dont make it a seperate function integrate it into the open File Class
 
-#Toplevel GUI for choosing language the language of the file
-def langGUI():
-    global main
-    tempGUI = Toplevel(main)
-    tempGUI.title("Set language")
-    tempGUI.geometry("400x120")
 
-    #Construct Interface
-    info = Label(tempGUI, text="In what language is this file in?\n Choose from Combobox or type a IETF Language tag in the Box below")
-    choice = ttk.Combobox(tempGUI, values=("de", "en", "fr", "es"))
-    confirmBut = Button(tempGUI, text="Set language for current files", background="green", foreground="white", height=2)
-    #pack area
-    info.pack()
-    choice.pack()
-    confirmBut.pack(pady=10)
-
-    #returns lang the files should be associated as
-    #return fileLang
 
 
 
@@ -169,8 +174,8 @@ def GUI():
     
 
 #Start of Programm
-#GUI()
-langGUI()
+GUI()
+#langGUI()
 
 #mainloop
 main.mainloop()
