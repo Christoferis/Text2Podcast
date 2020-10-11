@@ -1,8 +1,8 @@
 '''
 GUI Component of Text2Podcast developed by Christoferis
-c 2020 MIT - License
+c 2020 MIT License
 
-Stand: 4 October 2020
+Stand: 11 October 2020
 
 Used Libraries: python os + python tkinter
 python ver 3.8+
@@ -103,14 +103,9 @@ class File:
         confirmBut.pack(pady=10)
 
 
-def backendStart():
+def midend_start():
     #----> File structure: GUI ---> midend constructs final file -----> Backend with ocr and gtts
     midend(files=File.sourcepaths)
-
-#dont make it a seperate function integrate it into the open File Class
-
-
-
 
 
 #Main GUI Function
@@ -128,7 +123,7 @@ def GUI():
 
     #bottombar construction
     bottombar = Frame(main)
-    confirm = Button(bottombar, text="Make Podcast", height=2, background="green", foreground="white", command=backendStart)
+    confirm = Button(bottombar, text="Make Podcast", height=2, background="green", foreground="white", command=midend_start)
 
 
     #Topbar construction
@@ -172,10 +167,7 @@ def GUI():
     #other win config
     main.config(menu=menubar)
     
-
-#Start of Programm
 GUI()
-#langGUI()
 
 #mainloop
 main.mainloop()

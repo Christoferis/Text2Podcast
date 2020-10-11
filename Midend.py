@@ -13,19 +13,13 @@ class midend:
 
     def __init__(self, files):
         self.files = files
-        self.extractdata = str()
+        self.finaltext = str()
         self.sort()
         pass
     
     def sort(self):
-        for file in self.files:
-            if file in ".txt":
-                #Open file and append it to string
+        #Iterate over Dict keys
+        for data in self.files.keys:
+            #Checks for Image
+            if data in (".png", ".PNG", ".jpg", ".jpeg", ".JPG", "JPEG"):
                 pass
-            elif file in (".jpg", ".jpeg", ".JPG", ".JPEG", ".png", ".PNG"):
-                #send file to OCRComp
-                pass
-    
-    def gttsInteg(self):
-        pass
-
