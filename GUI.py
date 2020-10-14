@@ -57,11 +57,11 @@ class File:
         currentfiles = list(fd.askopenfilenames(defaultextension="*.*", filetypes=[("Image Files", "*.png *.jpg *.jpeg"), ("Text Files", "*.txt")]))
         
         #delete welcome message
-        if self.listbox.get(0) in ("Welcome to Text2Podcast! Start by Importing some Files",) and len(currentfiles) != 0:
+        if self.listbox.get(0) in ("Welcome to Text2Podcast! Start by Importing some Files",):
             self.listbox.delete(0)
-
-        #LangGUI
-        self.langGUI(currentfiles)
+        #Launch GUI if there are files
+        if len(currentfiles) != 0:
+            self.langGUI(currentfiles)
 
     def delFile(self):
         #delete from sourcepaths
@@ -97,14 +97,13 @@ class File:
         info = Label(tempGUI, text="In what language is this file in?\n Choose from Combobox or type a IETF Language tag in the Box below")
         choice = ttk.Combobox(tempGUI, values=("de", "en", "fr", "es"))
         confirmBut = Button(tempGUI, text="Set language for current files", background="green", foreground="white", height=2, command=lambda: self.add_to_dict(files, choice, tempGUI))
+
         #pack area
         info.pack()
         choice.pack()
         confirmBut.pack(pady=10)
 
-
 def midend_start():
-    #----> File structure: GUI ---> midend constructs final file -----> Backend with ocr and gtts
     midend(files=File.sourcepaths)
 
 
