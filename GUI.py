@@ -8,38 +8,26 @@ Used Libraries: python os + python tkinter
 python ver 3.8+
 
 TODO:
-- sourcepath dictionary with language (French and Stuff)
 - setup.py
-- pytesseract integration
 - gtts integration
 - Implement proper Preprocessing
 - Toplevel Help
 - Dark Mode
 - Toplevel Savelocation Filename + Autoplay
 '''
-#File Imports
+
+#Local Imports
 from Midend import midend
 
 #External Imports
 from tkinter import Tk as tk, Menu, Frame, Button, filedialog as fd, Listbox, Toplevel, ttk, Label
 from os import startfile
-from random import randint
 
 #Construct main window as global
 main = tk()
 main.title("Text2Podcast by Christoferis V1.0")
 main.geometry("1280x720")
 
-
-#Filenamegenerator 
-def rangen():
-    Filename = r"\temp"
-
-    for i in range(4):
-        Filename += str(randint(0, 999))
-
-    Filename += ".txt"
-    return str(Filename)
     
 #Main Open class
 class File:
@@ -103,9 +91,10 @@ class File:
         choice.pack()
         confirmBut.pack(pady=10)
 
+#Starting the Mid / Backend
 def midend_start():
+    #----> File structure: GUI ---> midend constructs final file -----> Backend with ocr and gtts
     midend(files=File.sourcepaths)
-
 
 #Main GUI Function
 def GUI():
@@ -165,7 +154,8 @@ def GUI():
     
     #other win config
     main.config(menu=menubar)
-    
+
+#Start GUI
 GUI()
 
 #mainloop
