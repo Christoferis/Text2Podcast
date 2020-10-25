@@ -14,6 +14,7 @@ from Backend import rangen
 from Backend import image_processing, text_to_audio
 from pydub import AudioSegment
 from os import startfile
+from os.path import abspath
 
 #Note: Every part of text must be read in the language i.e in the end must merge audio
 #Installs FFMPEG Py
@@ -41,10 +42,12 @@ class midend:
         self.join_audio()
 
     def join_audio(self):
-        final_audio = None
+        final_audio = AudioSegment.empty()
+        #Loop and add to final file
         for file in self.paths:
-            audio_open = AudioSegment.from_mp3(file)
+            audio_open = AudioSegment.from_mp3(abspath(file))
             final_audio += audio_open
         #File Name + Export
         final_name = rangen(False)
         final_audio.export(final_name, format="mp3")
+        
