@@ -19,7 +19,7 @@ from os.path import abspath
 #Note: Every part of text must be read in the language i.e in the end must merge audio
 #Installs FFMPEG Py
 class midend:
-
+     
     def __init__(self, files):
         self.files = files
         self.paths = list()
@@ -34,7 +34,7 @@ class midend:
                 file = text_to_audio(text, self.files.get(data))
             #text file test
             elif data.find(".txt") != -1:
-                text = open(data, mode="r").read()
+                text = open(data, mode="r", encoding="utf8").read()
                 file = text_to_audio(text, self.files.get(data))
             #Append to file list
             self.paths.append(file)
@@ -49,5 +49,5 @@ class midend:
             final_audio += audio_open
         #File Name + Export
         final_name = rangen(False)
-        final_audio.export(final_name, format="mp3")
+        startfile(final_audio.export(final_name, format="mp3"))
         
