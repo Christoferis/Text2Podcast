@@ -24,6 +24,7 @@ class midend:
         self.files = files
         self.paths = list()
         self.sort_data()
+        self.speed
 
     def sort_data(self):
         #Iterate over Dict keys
@@ -47,6 +48,7 @@ class midend:
         for file in self.paths:
             audio_open = AudioSegment.from_mp3(abspath(file))
             final_audio += audio_open
+
         #File Name + Export
         final_name = rangen(False)
         startfile(final_audio.export(final_name, format="mp3"))

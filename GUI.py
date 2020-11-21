@@ -9,7 +9,6 @@ python ver 3.8+
 
 TODO:
 - setup.py
-- gtts integration
 - Implement proper Preprocessing
 - Toplevel Help
 - Dark Mode
@@ -96,6 +95,21 @@ def midend_start():
     #----> File structure: GUI ---> midend constructs final file -----> Backend with ocr and gtts
     midend(files=File.sourcepaths)
 
+def credits():
+    global main
+    #Make Toplevel window
+    win = Toplevel(main)
+    win.geometry("600x200")
+    
+    #add text
+    Label(win, text="Made by Christoferis 2020").pack()
+    Label(win, text="https://linktr.ee/christoferis", background="black", foreground="white").pack()
+    Label(win, text="-|-").pack()
+    Label(win, text="How 2 use:", background="black", foreground="white").pack()
+    Label(win, text="1. Import Images you want to be read").pack()
+    Label(win, text="2. Set the language of those files (If Batch Processing: Every File is in the same language)").pack()
+    Label(win, text='3. Press "Make Podcast" and let the program do its thing (Note: Freezing is normal, especially with multiple files)').pack()
+
 #Main GUI Function
 def GUI():
     #Import main window
@@ -150,7 +164,7 @@ def GUI():
     #Preview Imported Image using standard Image Opener
     menubar.add_command(label="Preview selected File", command=inst.preview)
     #Help and Credits
-    menubar.add_command(label="Help / Credits")
+    menubar.add_command(label="Help / Credits", command=credits)
     
     #other win config
     main.config(menu=menubar)
