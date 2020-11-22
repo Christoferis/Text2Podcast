@@ -7,10 +7,10 @@ Notes:
 '''
 
 #External Imports
-from pytesseract import image_to_string as imgstr
+from pytesseract import image_to_string as imgstr, pytesseract
 from PIL import Image
 from gtts import gTTS
-from random import randint
+from random import randint, choice
 
 #pytesseract integration
 def image_processing(file):
@@ -20,7 +20,8 @@ def image_processing(file):
 
 #gTTS integration
 def text_to_audio(maintext, lang):
-    audio = gTTS(text=maintext, lang=lang)
+    tld = choice(["com", "de", "co.uk", "fr", "pt"])
+    audio = gTTS(text=maintext, lang=lang, tld=tld)
     filename = rangen(True)
     audio.save(filename)
     return filename
