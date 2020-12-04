@@ -3,32 +3,28 @@ gTTS Integration for Text2Podcast
 developed by Christoferis c 2020
 
 TODO:
-- File sorter and combiner
 -Multithreading
--Audio Merger
 '''
 #Local Imports
-from Backend import rangen
 
 #Ext imports
-from Backend import image_processing, text_to_audio
+from Backend import image_processing, text_to_audio, rangen
 from pydub import AudioSegment
 from os import startfile
 from os.path import abspath
 
 #Note: Every part of text must be read in the language i.e in the end must merge audio
-#Installs FFMPEG Py
 class midend:
      
     def __init__(self, files):
         self.files = files
         self.paths = list()
         self.sort_data()
-        self.speed
 
     def sort_data(self):
         #Iterate over Dict keys
         for data in self.files:
+            file = None
             #Checks for Image
             if data.find(".png") != -1 or data.find(".jpg") != -1 or data.find(".jpeg") != -1:
                 text = image_processing(data) + "\n"
@@ -43,6 +39,8 @@ class midend:
         self.join_audio()
 
     def join_audio(self):
+        #set FFMpeg (coming soon)
+
         final_audio = AudioSegment.empty()
         #Loop and add to final file
         for file in self.paths:
@@ -51,5 +49,5 @@ class midend:
 
         #File Name + Export
         final_name = rangen(False)
-        startfile(final_audio.export(final_name, format="mp3"))
-        
+        final_audio.export(final_name, format="mp3")
+        startfile(final_name)

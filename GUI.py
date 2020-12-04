@@ -2,17 +2,17 @@
 GUI Component of Text2Podcast developed by Christoferis
 c 2020 MIT License
 
-Stand: 11 October 2020
+Stand: 30 November 2020
 
 Used Libraries: python os + python tkinter
-python ver 3.8+
+python ver 3.7.5+
 
 TODO:
 - setup.py
 - Implement proper Preprocessing
-- Toplevel Help
 - Dark Mode
-- Toplevel Savelocation Filename + Autoplay
+- Toplevel Savelocation Filename
+- implement multithreading
 '''
 
 #Local Imports
@@ -93,7 +93,12 @@ class File:
 #Starting the Mid / Backend
 def midend_start():
     #----> File structure: GUI ---> midend constructs final file -----> Backend with ocr and gtts
-    midend(files=File.sourcepaths)
+    #tests if dict contains Files
+    if File.sourcepaths:
+        midend(files=File.sourcepaths)
+    else:
+        print("empty")
+
 
 def credits():
     global main
@@ -103,7 +108,9 @@ def credits():
     
     #add text
     Label(win, text="Made by Christoferis 2020").pack()
-    Label(win, text="https://linktr.ee/christoferis", background="black", foreground="white").pack()
+    Label(win, text="https://sites.google.com/view/christoferis/code-projects/text2podcast", background="black", foreground="white").pack()
+    Label(win, text="-|-").pack()
+    Label(win, text="Report bugs on GitHub (https://github.com/christoferis/text2podcast) or on my Twitter (@qu4rkz)").pack()
     Label(win, text="-|-").pack()
     Label(win, text="How 2 use:", background="black", foreground="white").pack()
     Label(win, text="1. Import Images you want to be read").pack()

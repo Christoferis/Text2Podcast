@@ -20,6 +20,10 @@ from os import fspath, mkdir, system
 main = Tk()
 main.title("Install Text2Podcast")
 
+def install(installpath, tesspath, ffmpath):
+    pass
+
+
 
 #Main Install GUI
 def GUI():
@@ -52,7 +56,7 @@ def GUI():
     installpath.pack(fill="x")
 
     #start Button
-    
+    Button(main, text="Install now", foreground="white", background="green").pack(pady=11)
 
 #instance
 GUI()
