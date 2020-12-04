@@ -8,7 +8,7 @@ TODO:
 #Local Imports
 
 #Ext imports
-from Backend import image_processing, text_to_audio, rangen
+from Backend import image_processing, text_to_audio, rangen, paths
 from pydub import AudioSegment
 from os import startfile
 from os.path import abspath
@@ -40,6 +40,7 @@ class midend:
 
     def join_audio(self):
         #set FFMpeg (coming soon)
+        AudioSegment.converter = paths(False)
 
         final_audio = AudioSegment.empty()
         #Loop and add to final file
@@ -49,5 +50,6 @@ class midend:
 
         #File Name + Export
         final_name = rangen(False)
+        #export + play
         final_audio.export(final_name, format="mp3")
         startfile(final_name)

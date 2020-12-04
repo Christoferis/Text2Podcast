@@ -10,8 +10,6 @@ python ver 3.7.5+
 TODO:
 - setup.py
 - Implement proper Preprocessing
-- Dark Mode
-- Toplevel Savelocation Filename
 - implement multithreading
 '''
 
@@ -37,7 +35,6 @@ class File:
         #var
         self.listbox = listbox
         self.listbox.insert("end", "Welcome to Text2Podcast! Start by Importing some Files")
-
 
     def opFile(self):
         #File Dialog
@@ -99,8 +96,7 @@ def midend_start():
     else:
         print("empty")
 
-
-def credits():
+def credits_and_help():
     global main
     #Make Toplevel window
     win = Toplevel(main)
@@ -116,6 +112,12 @@ def credits():
     Label(win, text="1. Import Images you want to be read").pack()
     Label(win, text="2. Set the language of those files (If Batch Processing: Every File is in the same language)").pack()
     Label(win, text='3. Press "Make Podcast" and let the program do its thing (Note: Freezing is normal, especially with multiple files)').pack()
+
+    Label(win, text='Clear up storage by deleting old Text2Podcast files').pack()
+
+    #open up paths.json and deleting fin and temp storage
+    Button(text="Clear Text2Podcast Temp storage").pack()
+
 
 #Main GUI Function
 def GUI():
@@ -171,7 +173,7 @@ def GUI():
     #Preview Imported Image using standard Image Opener
     menubar.add_command(label="Preview selected File", command=inst.preview)
     #Help and Credits
-    menubar.add_command(label="Help / Credits", command=credits)
+    menubar.add_command(label="Help / Credits", command=credits_and_help)
     
     #other win config
     main.config(menu=menubar)
