@@ -15,13 +15,55 @@ PO Box 1866, Mountain View, CA 94042, USA.
 from tkinter import Tk, Label, Entry, Button, Frame
 from tkinter.filedialog import askdirectory as diropen
 from os import fspath, mkdir, system
+from json import dump
+
+#constants
+bin = "bin"
+
 
 #Instance window
 main = Tk()
 main.title("Install Text2Podcast")
 
 def install(installpath, tesspath, ffmpath):
+
+    #create filestructure
+    filestruct(installpath)
+
+
     pass
+
+
+def filestruct(installpath):
+    #make temp directory
+    try:
+        mkdir(installpath+ "/temp")
+    except FileExistsError:
+        pass
+
+    #make fin directory
+    try:
+        mkdir(installpath + "/fin")
+    except FileExistsError:
+        pass
+
+def createbin(installpath, tesspath, ffmpath):
+    #create paths.json in source directory and append paths to it
+    storeobj = {
+        "tesseract": tesspath,
+        "ffmpeg": ffmpath
+        }
+
+    pathdata = open(installpath + "/paths.json", "w")
+    dump(obj=storeobj, fp=pathdata)
+    pathdata.close()
+
+    #Copy data from installer bin
+    #main GUI Script
+
+
+
+
 
 
 
