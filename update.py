@@ -4,9 +4,13 @@ from shutil import copy
 
 
 def update():
-    copy(src="GUI.py", dst="installer/installer_bin/GUI.pyw")
-    copy(src="Midend.py", dst="installer/installer_bin/Midend.pyw")
-    copy(src="Backend.py", dst="installer/installer_bin/Backend.pyw")
+    try:
+        copy(src="GUI.py", dst="installer/installer_bin/GUI.pyw")
+        copy(src="Midend.py", dst="installer/installer_bin/Midend.pyw")
+        copy(src="Backend.py", dst="installer/installer_bin/Backend.pyw")
+        print("Done.")
+    except Exception as ex:
+        print(ex)
     
 
 update()

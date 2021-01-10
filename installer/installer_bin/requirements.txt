@@ -1,4 +1,0 @@
-pytesseract=0.3.6
-gTTS=2.1.1
-Pillow=7.2.0
-pydub=0.24.1
