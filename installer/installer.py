@@ -14,7 +14,7 @@ PO Box 1866, Mountain View, CA 94042, USA.
 
 from tkinter import Tk, Label, Entry, Button, Frame, Toplevel
 from tkinter.filedialog import askdirectory as diropen
-from os import mkdir, system
+from os import mkdir, system, environ, pathsep
 from json import dump
 from shutil import copy
 
@@ -25,21 +25,29 @@ main.title("Install Text2Podcast")
 def install(installpath, tesspath, ffmpath):
     global main
 
-    #install dependencies
-    system("pip install -r installer/bin/requirements.txt")
+    try:
+        #install dependencies
+        system("pip install -r installer/bin/requirements.txt")
 
-    #create filestructure
-    filestruct(installpath)
+        #create filestructure
+        filestruct(installpath)
 
-    #create Binary files
-    createbin(installpath, tesspath, ffmpath)
+        #create Binary files
+        createbin(installpath, tesspath, ffmpath)
 
+        #add paths to PATH variable
+        add_path(tesspath, ffmpath)
 
-    #make success message
-    fin = Toplevel(main)
-    Label(fin, text="Text2Podcast is now installed!").pack()
-    Button(fin, text="Ok", command=main.destroy).pack()
+        #make success message
+        fin = Toplevel(main)
+        Label(fin, text="Text2Podcast is now installed! \n Restart your Computer to finish the installation").pack()
+        Button(fin, text="Ok", command=main.destroy).pack()
 
+    except Exception as e:
+        fin = Toplevel(main)
+        Label(fin, text="An Error occured").pack()
+        Label(fin, text=e).pack()
+        Button(fin, text="Ok", command=main.destroy).pack()
 
 
 def filestruct(installpath):
@@ -60,29 +68,27 @@ def createbin(installpath, tesspath, ffmpath):
     global main
     #create paths.json in source directory and append paths to it
     storeobj = {
-        "tesseract": tesspath,
-        "ffmpeg": ffmpath
+        "tesseract": tesspath + "tesseract.exe",
+        "ffmpeg": ffmpath + "ffmpeg.exe"
         }
-    try:
-        pathdata = open(installpath + "/paths.json", "w")
-        dump(obj=storeobj, fp=pathdata)
-        pathdata.close()
-    except Exception as e:
-        ex = Toplevel(main)
-        Label(ex, text=e).pack()
+    
+    pathdata = open(installpath + "/paths.json", "w")
+    dump(obj=storeobj, fp=pathdata)
+    pathdata.close()
 
 
     #Copy data from installer bin
-    try:
     #main GUI Script
-        copy(src="installer/bin/GUI.pyw", dst=installpath + "/GUI.pyw")
-        #Midend
-        copy(src="installer/bin/Midend.pyw", dst=installpath + "/Midend.pyw")
-        #Backend
-        copy(src="installer/bin/Backend.pyw", dst=installpath + "/Backend.pyw")
-    except Exception as e:
-        ex = Toplevel(main)
-        Label(ex, text=e).pack()
+    copy(src="installer/bin/GUI.pyw", dst=installpath + "/GUI.pyw")
+    #Midend
+    copy(src="installer/bin/Midend.pyw", dst=installpath + "/Midend.pyw")
+    #Backend
+    copy(src="installer/bin/Backend.pyw", dst=installpath + "/Backend.pyw")
+
+def add_path(tesspath, ffmpath):
+    #set tess path
+    environ['Path'] = tesspath + pathsep + environ['PATH']
+    environ['Path'] = ffmpath + pathsep + environ['PATH']
 
 
 #Main Install GUI
@@ -100,13 +106,13 @@ def GUI():
     #Tesseract Path
     Label(main, text="\nPath to Tesseract Binaries").pack()
     tesspath = Entry(main)
-    tesspath.insert(index=0, string="C:/Program Files/Tesseract-OCR/tesseract.exe")
+    tesspath.insert(index=0, string="C:/Program Files/Tesseract-OCR/")
     tesspath.pack(fill="x")
 
     #FFMPEG Path
     Label(main, text="\nPath to FFMPEG Binaries").pack()
     ffmpath = Entry(main)
-    ffmpath.insert(index=0, string="C:/Program Files/ffmpeg-N-99728-gd6e903b09b-win64-gpl-shared-vulkan/ffmpeg-N-99728-gd6e903b09b-win64-gpl-shared-vulkan/bin/ffmpeg.exe")
+    ffmpath.insert(index=0, string="C:/Program Files/ffmpeg-N-99728-gd6e903b09b-win64-gpl-shared-vulkan/ffmpeg-N-99728-gd6e903b09b-win64-gpl-shared-vulkan/bin/")
     ffmpath.pack(fill="x")
 
     #installation path

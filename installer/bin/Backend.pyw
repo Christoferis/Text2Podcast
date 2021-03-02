@@ -26,6 +26,7 @@ def paths(type):
     else:
         path = cfg["ffmpeg"]
 
+
     #close file
     file.close()
     return path

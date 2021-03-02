@@ -10,8 +10,9 @@ TODO:
 #Ext imports
 from Backend import image_processing, text_to_audio, rangen, paths
 from pydub import AudioSegment
-from os import startfile
+from os import startfile, getcwd
 from os.path import abspath
+
 
 #Note: Every part of text must be read in the language i.e in the end must merge audio
 class midend:
@@ -20,6 +21,7 @@ class midend:
         self.files = files
         self.paths = list()
         self.sort_data()
+
 
     def sort_data(self):
         #Iterate over Dict keys
@@ -42,16 +44,19 @@ class midend:
         self.join_audio()
 
     def join_audio(self):
-        #set FFMpeg and prepping 
+        #set FFMpeg and prepping
         AudioSegment.converter = paths(False)
+        AudioSegment.ffmpeg = paths(False)
         final_audio = AudioSegment.empty()
 
         #sort list for empty strings
+        
         for path in self.paths:
             try:
-                self.paths.remove(None)
+                self.paths.remove("")
             except Exception:
                 break
+        
 
         #Loop and add to final file
         for file in self.paths:
@@ -62,4 +67,6 @@ class midend:
         final_name = rangen(False)
         #export + play
         final_audio.export(final_name, format="mp3")
-        startfile(final_name)
+        startfile(abspath(final_name))
+
+
